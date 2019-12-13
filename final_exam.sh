@@ -1,11 +1,11 @@
 #'should be run in ~/amuse directory'
-#'should put into ~/final_exam_CAP for safekeeping'
+#'should put into ~/cap_assignments/final_project for safekeeping'
 
 echo 'run script'
 ./amuse.sh ~/Desktop/comp_astro/final_exam_CAP/source.py
 
 echo 'convert collection of .png files into .gif'
-convert -delay 10 'frame_*.png' -loop 0 cluster_evolution.gif
+convert -delay 10 'frame_*.png' -loop 0 cloud_evolution.gif
 rm -rf frame_*.png
 
 mv *.png ~/Desktop/comp_astro/final_exam_CAP/
