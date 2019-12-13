@@ -12,4 +12,6 @@ def BH_maker(BH_mass, x0_BH, y0_BH, vx0_BH):
 	BH.vy = 0.|(units.km/units.s)
 	BH.vz = 0.|(units.km/units.s)
 
-	return BH
+	write_set_to_file(BH, 'BH_file', 'hdf5')
+
+	return 1

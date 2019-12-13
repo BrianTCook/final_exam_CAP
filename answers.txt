@@ -1,1 +1,9 @@
-Here is where my answers will go!
+I ran the simulation for only 20 yr due to time constraints (either my computer is slow or I wrote a solver gravity bridge). Put final_exam.sh in the amuse directory and it runs with the outputs put into the indicated directory.
+
+Question 1: I sincerely doubt it will, as it will encounter a much more massive object (namely the black hole) and pass well within its Hill radius.
+
+Question 2: The debris disk will get stratified depending on the impact parameter of the passing black hole. The disk is stretched towards the Sun, so I suspect that much of the disk will be evacuated once the BH and Neptune/disk system interact. This is due to tidal interactions with the more massive external object (M_neptune / M_sun ~ 5e-5).
+
+Question 3: ~0 of the particles in the BH case, ~0.5 of the particles in the non-BH case. This is dependent on if the ProtoPlanetaryDisk() is relaxed at initialization, and I suspect that this is also dependent on the Salpeter mass distribution used to define the gas particles.
+
+Question 4: << 1000 particles bound in the BH case (I'm guessing), and ~half of the particles will stay bound to Neptune in the no BH case. I don't know a ton about moon formation but it seems like the passing BH has a dramatic effect on whether or not Neptune would be able to form a moon.

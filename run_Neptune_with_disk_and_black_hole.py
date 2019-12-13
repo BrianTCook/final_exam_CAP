@@ -22,7 +22,10 @@ def iterate_through_simulations(Q, N, seed_disk, Rmax, diskmassfrac, BH_mass, x0
 	if BH_bool == True:
 
 		sun_and_planets, gas = initial_conditions(Q, N, Rmax, diskmassfrac, seed_disk)
-		BH = BH_maker(BH_mass, x0_BH, y0_BH, vx0_BH)
+
+		#runs add_black_hole.py, which saves data as hdf5
+		BH_maker(BH_mass, x0_BH, y0_BH, vx0_BH)
+		BH = read_set_from_file('BH_file', 'hdf5')
 
 		N_objects = len(sun_and_planets)
 		sun_and_planets_minus_Neptune = sun_and_planets[:N_objects-1]
@@ -177,7 +180,7 @@ def new_option_parser():
 	optparser.add_option('--x0_BH', dest='x0_BH', type='float', default=-500.)
 	optparser.add_option('--y0_BH', dest='y0_BH', type='float', default=200.)
 	optparser.add_option('--vx0_BH', dest='vx0_BH', type='float', default=30.)
-	optparser.add_option('--t_end', dest='t_end', type='float', default=10.)
+	optparser.add_option('--t_end', dest='t_end', type='float', default=20.)
 	optparser.add_option('--dt', dest='dt', type='float', default=0.1)
 
 	return optparser
