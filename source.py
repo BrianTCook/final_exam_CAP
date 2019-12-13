@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import operator
 import time
 from amuse.lab import *
-from amuse.ext.bridge import bridge
+from amuse.couple import bridge
 from amuse.units.optparse import OptionParser
 
 class GalacticCenterGravityCode(object):
@@ -110,16 +110,12 @@ def main(N, seed_cluster, seed_salpeter, mmin, mmax, t_end, dt, r_cluster, r_gal
 	cluster_code.particles.add_particles(bodies)
 
 	#stellar evolution code to capture mass loss
-	#stellar_code = MESA()
-	#stellar_code.particles.add_particles(bodies)
+	stellar_code = SeBa()
+	stellar_code.particles.add_particles(bodies)
 
 	#bridge the cluster with the background galaxy, not the other way around
-	gravity_code = bridge()
+	gravity_code = bridge.Bridge()
 	gravity_code.add_system(cluster_code, (galaxy_code,))
-
-	total_system = gravity_code #bridge()
-	#total_system.add_system(gravity_code, (stellar_code,))
-	#total_system.add_system(stellar_code, (gravity_code,))
 
 	sim_times_unitless = np.arange(0., t_end, dt)
 	sim_times = [ t|units.Myr for t in sim_times_unitless ]
@@ -140,6 +136,10 @@ def main(N, seed_cluster, seed_salpeter, mmin, mmax, t_end, dt, r_cluster, r_gal
 
 		MassFraction = [0.1, 0.25, 0.5, 0.75]
 
+		'''
+		evolve stellar and gravity separately, see textbook
+		'''
+
 		LR = LagrangianRadii(total_system.particles, massf=MassFraction)
 
 		LR_one.append(LR[0].value_in(units.parsec))
@@ -147,12 +147,12 @@ def main(N, seed_cluster, seed_salpeter, mmin, mmax, t_end, dt, r_cluster, r_gal
 		LR_three.append(LR[2].value_in(units.parsec))
 		LR_four.append(LR[3].value_in(units.parsec))
 
-		sys_mass = sum([ particle.mass.value_in(units.MSun) for particle in total_system.particles ])
+		sys_mass = sum([ particle.mass.value_in(units.MSun) for particle in bodies ])
 
 		system_mass.append(sys_mass)
 
-		x = total_system.particles.x.value_in(units.parsec)
-		y = total_system.particles.y.value_in(units.parsec)
+		x = bodies.x.value_in(units.parsec)
+		y = bodies.y.value_in(units.parsec)
 
 		plt.figure()
 		plt.scatter(x,y,s=1)
@@ -165,11 +165,9 @@ def main(N, seed_cluster, seed_salpeter, mmin, mmax, t_end, dt, r_cluster, r_gal
 		plt.savefig('frame_%s.png'%(str(i).rjust(4, '0')))
 		plt.close()
 
-		total_system.evolve_model(t)
-
 	#final snapshot of the simulation
-	x = total_system.particles.x.value_in(units.parsec)
-	y = total_system.particles.y.value_in(units.parsec)
+	x = bodies.x.value_in(units.parsec)
+	y = bodies.particles.y.value_in(units.parsec)
 
 	plt.figure()
 	plt.scatter(x,y,s=1)
@@ -208,7 +206,6 @@ def main(N, seed_cluster, seed_salpeter, mmin, mmax, t_end, dt, r_cluster, r_gal
 	plt.tight_layout()
 	plt.savefig('lagrangian_radii.png')
 	plt.close()
-
 
 	cluster_code.stop()		
 

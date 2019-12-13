@@ -2,14 +2,9 @@
 #'should put into ~/cap_assignments/final_project for safekeeping'
 
 echo 'run script'
-./amuse.sh ~/Desktop/comp_astro/final_exam_CAP/source.py
+./amuse.sh ~/Desktop/comp_astro/final_exam_CAP/run_Neptune_with_disk_and_black_hole.py
 
-echo 'convert collection of .png files into .gif'
-convert -delay 10 'frame_*.png' -loop 0 cloud_evolution.gif
-rm -rf frame_*.png
-
-mv *.png ~/Desktop/comp_astro/final_exam_CAP/
-mv *.gif ~/Desktop/comp_astro/final_exam_CAP/
+cp *.png ~/Desktop/comp_astro/final_exam_CAP/
 
 echo 'copy shell script into same directory for safekeeping'
 cp final_exam.sh ~/Desktop/comp_astro/final_exam_CAP/
